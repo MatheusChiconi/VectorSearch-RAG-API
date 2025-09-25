@@ -1,0 +1,43 @@
+* {
+    font-family: 'Inter', sans-serif;
+}
+
+.custom-input {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.custom-input:focus {
+    outline: none;
+}
+
+/* Animações suaves */
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+/* Scrollbar customizada para a área de mensagens */
+.overflow-y-auto::-webkit-scrollbar {
+    width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+    background: #374151;
+    border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+    background: #6B7280;
+    border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: #9CA3AF;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .custom-input {
+        font-size: 16px; /* Evita zoom no iOS */
+    }
+}
