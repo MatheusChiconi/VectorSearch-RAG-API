@@ -49,7 +49,7 @@ def get_embedding_function():
     return embeddings
 
 def add_to_chroma(chunks: List[Document]):
-    print(f"Iniciando a adição de {len(chunks)} chunks ao ChromaDB...")
+    print(f"Starting to add {len(chunks)} chunks to ChromaDB...")
 
     db = Chroma(
         persist_directory=CHROMA_PATH,
@@ -60,7 +60,7 @@ def add_to_chroma(chunks: List[Document]):
 
     existing_items_ids = db.get(include=[])
     existing_ids = set(existing_items_ids["ids"])
-    print(f"Encontrados {len(existing_ids)} documentos existentes no banco de dados.")
+    print(f"Found {len(existing_ids)} existing documents in database.")
 
     chunks_to_add = []
     ids_to_add = []
@@ -72,11 +72,11 @@ def add_to_chroma(chunks: List[Document]):
 
     # 5. Adiciona os novos chunks, se houver algum
     if len(chunks_to_add) > 0:
-        print(f"Adicionando {len(chunks_to_add)} novos chunks ao banco de dados...")
+        print(f"Adding {len(chunks_to_add)} new chunks to database...")
         db.add_documents(
             documents=chunks_to_add,
             ids=ids_to_add
         )
-        print("Novos chunks adicionados e salvos com sucesso.")
+        print("New chunks added and saved successfully.")
     else:
-        print("Nenhum chunk novo para adicionar. O banco de dados já está atualizado.")
+        print("No new chunks to add. Database is already up to date.")
