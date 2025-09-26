@@ -1,7 +1,7 @@
 from . import dataBaseVector
 from langchain_chroma import Chroma
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_ollama import Ollama
+from langchain_ollama.chat_models import ChatOllama
 
 PROMPT_TEMPLATE = """
 Você é um assistente de IA prestativo e factual. 
@@ -37,7 +37,7 @@ def format_prompt(question: str, context: str) -> str:
     return prompt
 
 def load_model():
-    model = Ollama(
+    model = ChatOllama(
         model="gemma3:4b",
         base_url="http://192.168.0.26:11434"
     )
@@ -46,6 +46,8 @@ def load_model():
 def get_answer(question: str) -> str:
     context = retrieve_context(question)
     prompt = format_prompt(question, context)
+    print("Prompt formatado:\n", prompt)
     model = load_model()
+    print("Modelo carregado:", model)
     response_text = model.invoke(prompt)
     return response_text
