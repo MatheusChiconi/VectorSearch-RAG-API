@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from .serializer import generateResponseSerializer
 from rest_framework.response import Response
 from rest_framework import status
+from . import ragChain
 
 class generateResponseView(APIView):
     def post(self, request, *args, **kwargs):
@@ -11,7 +12,7 @@ class generateResponseView(APIView):
         prompt_validated = serializer.validated_data['prompt']
 
         try:
-            response = prompt_validated # puxo a funcao
+            response = ragChain.get_answer(prompt_validated)
             response_data = {
                 "response": f"{response}"
             }
