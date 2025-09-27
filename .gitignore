@@ -1,0 +1,17 @@
+# python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# chroma_db folder
+core/chroma_db/
+
+# inside 'files' folder, ignore everything except .gitkeep
+core/files/*
+!core/files/.gitkeep
+
+# temp files
+*.log
+*.tmp
+*.swp

@@ -17,6 +17,8 @@ Não tente inventar uma resposta.
 
 PERGUNTA: {question}
 """
+MODEL = "llama3.1:8b-instruct-q4_K_M"
+NUM_CHUNKS = 10
 
 def load_database():
     db = Chroma(
@@ -27,7 +29,7 @@ def load_database():
 
 def retrieve_context(question: str) -> str:
     db = load_database()
-    results = db.similarity_search_with_score(question, k=5)
+    results = db.similarity_search_with_score(question, NUM_CHUNKS)
     context = "\n\n---\n\n".join([doc.page_content for doc, _score in results])
     return context
 
@@ -38,7 +40,7 @@ def format_prompt(question: str, context: str) -> str:
 
 def load_model():
     model = ChatOllama(
-        model="gemma3:4b",
+        model=MODEL,
         base_url="http://192.168.0.26:11434"
     )
     return model

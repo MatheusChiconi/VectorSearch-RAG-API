@@ -11,6 +11,10 @@ from langchain_core.documents import Document
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), "files")
 CHROMA_PATH = os.path.join(os.path.dirname(__file__), "chroma_db")
+EMBED_MODEL = "mxbai-embed-large"
+CHUNK_SIZE = 1000
+CHUNK_OVERLAP = 100
+
 
 def load_documents_md():
     loader = DirectoryLoader(DATA_PATH, glob="*.md")
@@ -30,7 +34,7 @@ def load_all_documents():
     print(f"Total documents loaded: {len(md_docs) + len(pdf_docs)}")
     return md_docs + pdf_docs
 
-def divide_documents_in_chunks(documents, chunk_size=1000, overlap=100):
+def divide_documents_in_chunks(documents, chunk_size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=chunk_size,
         chunk_overlap=overlap,
@@ -38,12 +42,32 @@ def divide_documents_in_chunks(documents, chunk_size=1000, overlap=100):
         is_separator_regex=True,
     )
     chunks = text_splitter.split_documents(documents)
-    print(f"Split into {len(chunks)} chunks.")
+    
+    # Print detalhado dos chunks
+    print("\n=== CHUNKS ANALYSIS ===")
+    for i, chunk in enumerate(chunks):
+        print(f"\n--- Chunk {i+1} ---")
+        print(f"Source: {chunk.metadata.get('source', 'Unknown')}")
+        print(f"Page: {chunk.metadata.get('page', 'N/A')}")
+        print(f"Length: {len(chunk.page_content)} characters")
+        print(f"Preview: {chunk.page_content[:150]}...")
+        if len(chunk.page_content) > 150:
+            print(f"...{chunk.page_content[-50:]}")  # Últimos 50 caracteres
+    
+    print("\n=== SUMMARY ===")
+    print(f"Total chunks created: {len(chunks)}")
+    
+    # Estatísticas dos chunks
+    lengths = [len(chunk.page_content) for chunk in chunks]
+    print(f"Average chunk size: {sum(lengths) / len(lengths):.0f} characters")
+    print(f"Min chunk size: {min(lengths)} characters")
+    print(f"Max chunk size: {max(lengths)} characters")
+    
     return chunks
 
 def get_embedding_function():
     embeddings = OllamaEmbeddings(
-        model="nomic-embed-text", 
+        model=EMBED_MODEL, 
         base_url="http://192.168.0.26:11434"
         )
     return embeddings
