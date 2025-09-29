@@ -1,6 +1,12 @@
-<img width="1551" height="840" alt="image" src="https://github.com/user-attachments/assets/144be45a-d88b-4a15-b041-3fdad14e15ff" /># RAG Django AI Chatbot
+# RAG Django AI Chatbot
 
 *Um assistente de IA local e contextual, capaz de responder perguntas com base em seus próprios documentos.*
+
+![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)
+![Django](https://img.shields.io/badge/Django-REST_Framework-092E20?logo=django&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-0052CC?logo=openai&logoColor=white)
+![Ollama](https://img.shields.io/badge/Ollama-Local_AI-green?logo=opensourceinitiative&logoColor=white)
+![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector_DB-orange?logo=databricks&logoColor=white)
 
 ## Sumário
 
@@ -77,7 +83,7 @@ Adicione seus arquivos `.pdf` e `.md` na pasta `core/files/`.
 Execute o comando de gerenciamento para processar seus arquivos. Este passo pode levar alguns minutos.
 
 ```bash
-python manage.py atualizar_vetores
+python3 manage.py atualizar_vetores
 ```
 
 ### 6. Rodando o Servidor
@@ -98,16 +104,14 @@ A interação com a IA é feita através do seguinte endpoint:
 
 **Descrição:** Envia um prompt do usuário e recebe uma resposta contextualizada gerada pela IA.
 
-**Corpo da Requisição (JSON)**
+**Corpo da Resposta (JSON)**
 ```json
 {
-  "prompt": "Qual foi a principal causa da Inconfidência Mineira?"
-}
-```
-
-**Exemplo com cURL**
-```bash
-curl -X POST http://127.0.0.1:8000/api/generate-response/ -H "Content-Type: application/json" -d '{"prompt": "Qual foi a principal causa da Inconfidência Mineira?"}'
+  "response_text": "A inconfidência mineira é ...",
+  "metadata": {
+                "model": "llama3",
+                "total_tokens": 3500,
+              }
 ```
 
 ## Contato
